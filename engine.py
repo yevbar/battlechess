@@ -33,52 +33,45 @@ def recursive_minimax(board, depth, my_turn):
     return winner
 
 def evaluate(board):
-  score = 0
-  _PAWN = 1
-  _KNIGHT = 3
-  _BISHOP = 3
-  _ROOK = 5
-  _QUEEN = 9
-  _KING = 100
-
   turn = board.turn
+  score = 0
 
   for pawn in board.pieces(chess.PAWN, turn):
-    score += _PAWN
+    score += 1
 
   for knight in board.pieces(chess.KNIGHT, turn):
-    score += _KNIGHT
+    score += 3
 
   for bishop in board.pieces(chess.BISHOP, turn):
-    score += _BISHOP
+    score += 3
 
   for rook in board.pieces(chess.ROOK, turn):
-    score += _ROOK
+    score += 5
 
   for queen in board.pieces(chess.QUEEN, turn):
-    score += _QUEEN
+    score += 9
   
   for king in board.pieces(chess.KING, turn):
-    score += _KING
+    score += 100
 
   # the other side
   for pawn in board.pieces(chess.PAWN, (not turn)):
-    score -= _PAWN
+    score -= 1
 
   for knight in board.pieces(chess.KNIGHT, (not turn)):
-    score -= _KNIGHT
+    score -= 3
 
   for bishop in board.pieces(chess.BISHOP, (not turn)):
-    score -= _BISHOP
+    score -= 3
 
   for rook in board.pieces(chess.ROOK, (not turn)):
-    score -= _ROOK
+    score -= 5
 
   for queen in board.pieces(chess.QUEEN, (not turn)):
-    score -= _QUEEN
+    score -= 9
   
   for king in board.pieces(chess.KING, (not turn)):
-    score -= _KING
+    score -= 100
 
   return score
 
