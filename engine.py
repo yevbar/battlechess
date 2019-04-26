@@ -25,6 +25,7 @@ def recursive_minimax(board, depth, my_turn):
       new_board.push(move)
       best_moves.append([new_board, evaluate(new_board)])
     best_moves.sort(key=lambda x: x[1], reverse=True)
+    best_moves = best_moves[0:4]
     for move in best_moves:
       mm = recursive_minimax(new_board, depth-1, True)
       if mm[1] < winner[1]:
