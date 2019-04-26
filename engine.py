@@ -11,7 +11,7 @@ def recursive_minimax(board, depth, my_turn):
   if my_turn:
     winner = [None, 1000]
     for move in board.legal_moves:
-      new_board = chess.Board(board.fen())
+      new_board = board.copy()
       new_board.push(move)
       mm = recursive_minimax(new_board, depth-1, False)
       if mm[1] < winner[1]:
@@ -20,15 +20,12 @@ def recursive_minimax(board, depth, my_turn):
   else: # not my_turn
     winner = [None, 1000]
     for move in board.legal_moves:
-      new_board = chess.Board(board.fen())
+      new_board = board.copy()
       new_board.push(move)
       mm = recursive_minimax(new_board, depth-1, True)
-      print("here is mm")
-      print(mm)
-      print("here is winner")
-      print(winner)
       if mm[1] < winner[1]:
         winner = mm
+    return winner
 
 def evaluate(board):
   if board is None:
@@ -86,14 +83,9 @@ def get_move(board, limit=None):
   # TODO: Fill this in with an actual chess engine
   output = None
   
-  moves = list(board.legal_moves)
-  mm_winner = recursive_minimax(board,1,True) 
+  mm_winner = recursive_minimax(board,3,True) 
   last_move = None
   while board != mm_winner[0]:
-    # print("this is the board")
-    # print(board)
-    # print("this is the mm_winner")
-    # print(mm_winner[0])
     last_move = mm_winner[0].pop()
   return last_move
 
