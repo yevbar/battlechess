@@ -33,8 +33,6 @@ def recursive_minimax(board, depth, my_turn):
     return winner
 
 def evaluate(board):
-  if board is None:
-    return -1000
   score = 0
   _PAWN = 1
   _KNIGHT = 3
@@ -85,13 +83,12 @@ def evaluate(board):
   return score
 
 def get_move(board, limit=None):
-  # TODO: Fill this in with an actual chess engine
-  output = None
-  
+  start = time.time()
   mm_winner = recursive_minimax(board,3,True) 
   last_move = None
   while board != mm_winner[0]:
     last_move = mm_winner[0].pop()
+  print(time.time() - start)
   return last_move
 
 if __name__ == "__main__":
