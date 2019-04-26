@@ -8,8 +8,24 @@ def recursive_minimax(board, depth, my_turn):
   if depth == 0 or board.is_checkmate():
     return [board, evaluate(board)]
 
+  s = time.time()
   if my_turn:
-    if depth >= 3:
+    if depth < 4:
+      winner = [None, 1000]
+      best_moves = []
+      for move in board.legal_moves:
+        new_board = board.copy()
+        new_board.push(move)
+        best_moves.append([new_board, evaluate(new_board)])
+      best_moves.sort(key=lambda x: x[1])
+      best_moves = best_moves[0:4]
+      for move in best_moves:
+        mm = recursive_minimax(move[0], depth-1, False)
+        if mm[1] < winner[1]:
+          winner = mm
+      print(time.time() - s)
+      return winner
+    else:
       winner = [None, 1000]
       for move in board.legal_moves:
         new_board = board.copy()
@@ -17,20 +33,8 @@ def recursive_minimax(board, depth, my_turn):
         mm = recursive_minimax(new_board, depth-1, False)
         if mm[1] < winner[1]:
           winner = mm
+      print(time.time() - s)
       return winner
-    else:
-      winner = [None, -1000]
-      best_moves = []
-      for move in board.legal_moves:
-        new_board = board.copy()
-        new_board.push(move)
-        best_moves.append([new_board, evaluate(new_board)])
-      best_moves.sort(key=lambda x: x[1])
-      for move in best_moves:
-        mm = recursive_minimax(move[0], depth-1, False)
-        if mm[1] > winner[1]:
-          winner = mm
-      return mm
   else:
     winner = [None, 1000]
     best_moves = []
@@ -44,6 +48,7 @@ def recursive_minimax(board, depth, my_turn):
       mm = recursive_minimax(move[0], depth-1, True)
       if mm[1] < winner[1]:
         winner = mm
+    print(time.time() - s)
     return winner
 
 def evaluate(board):
